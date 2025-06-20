@@ -9,7 +9,7 @@ data class PersonApi(
     val name: String,
     val lastName: String,
     val email: String,
-    val createdBy: String,
+    val createdBy: String? = null,
     val createdAt: LocalDateTime? = null,
     val updatedBy: String? = null,
     val updatedAt: LocalDateTime? = null,

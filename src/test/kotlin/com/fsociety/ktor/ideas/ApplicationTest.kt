@@ -1,9 +1,9 @@
-package com.fsociety
+package com.fsociety.ktor.ideas
 
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.server.config.*
-import io.ktor.server.testing.*
+import io.ktor.client.request.get
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.config.ApplicationConfig
+import io.ktor.server.testing.testApplication
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -16,7 +16,7 @@ class ApplicationTest {
         }
 
         client.get("/healthcheck").apply {
-            assertEquals(HttpStatusCode.OK, status)
+            assertEquals(HttpStatusCode.Companion.OK, status)
         }
     }
 

@@ -9,10 +9,13 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
+private const val DATABASE_INI_EVENT = "Database initialization started"
+
 object DatabaseConfig {
 
     fun init(env: ApplicationEnvironment) {
         Database.connect(buildConnection(env))
+        env.log.info(DATABASE_INI_EVENT)
         transaction {
             SchemaUtils.create(PersonEntity)
         }
@@ -30,13 +33,13 @@ object DatabaseConfig {
 
     private fun ApplicationEnvironment.toDBConfig(): HikariConfig =
         HikariConfig().apply {
-            driverClassName = config.property("database.driverClassName").getString()
             jdbcUrl = config.property("database.jdbcUrl").getString()
             username = config.property("database.username").getString()
             password = config.property("database.password").getString()
-            maximumPoolSize = 3
-            isAutoCommit = false
+            driverClassName = config.property("database.driverClassName").getString()
+            maximumPoolSize = config.propertyOrNull("database.maxPoolSize")?.getString()?.toInt() ?: 3
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+            isAutoCommit = false
             validate()
         }
 }
