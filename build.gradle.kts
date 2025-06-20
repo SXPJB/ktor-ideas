@@ -39,6 +39,10 @@ dependencies {
     implementation("io.ktor:ktor-server-netty")
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    // Swagger
+    implementation("io.ktor:ktor-server-swagger")
+    implementation("io.ktor:ktor-server-openapi")
+
     // Koin
     implementation("io.insert-koin:koin-core:${koin_version}")
     implementation("io.insert-koin:koin-ktor:${koin_version}")
@@ -46,4 +50,6 @@ dependencies {
 
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("io.insert-koin:koin-test:${koin_version}")
+    testImplementation("io.insert-koin:koin-test-junit4:${koin_version}")
 }

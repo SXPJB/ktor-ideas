@@ -1,0 +1,84 @@
+openapi: "3.0.3"
+info:
+  title: "Ktor Ideas API"
+  description: "API for Ktor Ideas application"
+  version: "1.0.0"
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /user/:
+    get:
+      summary: "User Management API information"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            text/plain:
+              schema:
+                type: "string"
+  /user:
+    post:
+      summary: "Create a new person"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PersonRequest"
+      responses:
+        "201":
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PersonApi"
+  /user/all:
+    get:
+      summary: "Get all persons"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/PersonApi"
+  /healthcheck:
+    get:
+      summary: "Health check endpoint"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  status:
+                    type: "string"
+components:
+  schemas:
+    PersonApi:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        email:
+          type: "string"
+        age:
+          type: "integer"
+    PersonRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        email:
+          type: "string"
+        age:
+          type: "integer"
+      required:
+        - "name"
+        - "email"
+        - "age"

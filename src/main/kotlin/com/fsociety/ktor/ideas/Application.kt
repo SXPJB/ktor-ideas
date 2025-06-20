@@ -4,6 +4,7 @@ import com.fsociety.ktor.ideas.domain.db.DatabaseConfig
 import com.fsociety.ktor.ideas.http.rotue.configureRouting
 import com.fsociety.ktor.ideas.plugins.configureKoin
 import com.fsociety.ktor.ideas.plugins.configureSerialization
+import com.fsociety.ktor.ideas.plugins.configureSwagger
 import io.ktor.server.application.*
 import io.ktor.server.netty.*
 
@@ -20,4 +21,5 @@ fun Application.module() {
 private fun Application.configurePlugins() {
     configureKoin()
     configureSerialization()
+    configureSwagger()
 }

@@ -1,8 +1,8 @@
 package com.fsociety
 
-import com.fsociety.ktor.ideas.module
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,10 +11,11 @@ class ApplicationTest {
 
     @Test
     fun testRoot() = testApplication {
-        application {
-            module()
+        environment {
+            config = ApplicationConfig("application-test.conf")
         }
-        client.get("/").apply {
+
+        client.get("/healthcheck").apply {
             assertEquals(HttpStatusCode.OK, status)
         }
     }
