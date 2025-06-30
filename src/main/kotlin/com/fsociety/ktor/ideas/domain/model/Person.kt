@@ -1,6 +1,7 @@
 package com.fsociety.ktor.ideas.domain.model
 
 import com.fsociety.ktor.ideas.common.response.PersonApi
+import com.fsociety.ktor.ideas.domain.model.builders.PersonBuilder
 import kotlinx.datetime.LocalDateTime
 
 data class Person(
@@ -24,5 +25,11 @@ data class Person(
             updatedBy = updatedBy,
             updatedAt = updatedAt,
         )
+    }
+
+    companion object {
+        fun buildPerson(block: PersonBuilder.() -> Unit): Person {
+            return PersonBuilder().apply(block).build()
+        }
     }
 }

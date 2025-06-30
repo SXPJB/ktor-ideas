@@ -9,10 +9,12 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
+import kotlinx.datetime.Clock
 
 val appModule = module {
+    single<Clock> { Clock.System }
     // Repository
-    single<PersonRepository> { PersonRepositoryImpl() }
+    single<PersonRepository> { PersonRepositoryImpl(get()) }
     // Service
     singleOf(::PersonService)
     // Controller

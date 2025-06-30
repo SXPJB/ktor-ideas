@@ -4,6 +4,7 @@ val kotlin_version: String by project
 val logback_version: String by project
 val koin_version: String by project
 val hikari_version: String by project
+val call_logging_version: String by project
 
 plugins {
     kotlin("jvm") version "2.1.10"
@@ -44,12 +45,19 @@ dependencies {
     implementation("io.ktor:ktor-server-openapi")
 
     // Koin
-    implementation("io.insert-koin:koin-core:${koin_version}")
-    implementation("io.insert-koin:koin-ktor:${koin_version}")
-    implementation("io.insert-koin:koin-logger-slf4j:${koin_version}")
+    implementation("io.insert-koin:koin-core:$koin_version")
+    implementation("io.insert-koin:koin-ktor:$koin_version")
+    implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
+
+    implementation("io.ktor:ktor-server-call-logging:$call_logging_version")
+    implementation("io.ktor:ktor-server-call-id:$call_logging_version")
+
+    // Arrow
+    implementation("io.arrow-kt:arrow-core:2.1.2")
+    implementation("io.arrow-kt:arrow-fx-coroutines:2.1.2")
 
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    testImplementation("io.insert-koin:koin-test:${koin_version}")
-    testImplementation("io.insert-koin:koin-test-junit4:${koin_version}")
+    testImplementation("io.insert-koin:koin-test:$koin_version")
+    testImplementation("io.insert-koin:koin-test-junit4:$koin_version")
 }
