@@ -5,6 +5,8 @@ val logback_version: String by project
 val koin_version: String by project
 val hikari_version: String by project
 val call_logging_version: String by project
+val arrow_version: String by project
+val kafka_version: String by project
 
 plugins {
     kotlin("jvm") version "2.1.10"
@@ -21,6 +23,14 @@ application {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://packages.confluent.io/maven")
+        name = "confluence"
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
@@ -53,8 +63,12 @@ dependencies {
     implementation("io.ktor:ktor-server-call-id:$call_logging_version")
 
     // Arrow
-    implementation("io.arrow-kt:arrow-core:2.1.2")
-    implementation("io.arrow-kt:arrow-fx-coroutines:2.1.2")
+    implementation("io.arrow-kt:arrow-core:$arrow_version")
+    implementation("io.arrow-kt:arrow-fx-coroutines:$arrow_version")
+
+    // Kafka
+    implementation("org.apache.kafka:kafka-clients:$kafka_version")
+    implementation("org.apache.kafka:kafka-streams:$kafka_version")
 
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")

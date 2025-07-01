@@ -9,10 +9,10 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Routing.userRoute(
+fun Routing.personRoute(
     controller: PersonController,
 ) {
-    route("/user") {
+    route("/person") {
         get("/") {
             call.respondText("User Management API")
         }
