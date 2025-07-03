@@ -2,28 +2,19 @@ package com.fsociety.ktor.ideas.common.utils
 
 import com.fsociety.ktor.ideas.common.kafka.config.JsonDeserializer
 import com.fsociety.ktor.ideas.common.kafka.config.JsonSerializer
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.Consumer
+import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.*
 
 inline fun <reified T> T.logger(): Logger = LoggerFactory.getLogger(T::class.java)
-
-inline fun <reified T : Any> ConsumerRecord<*, *>.handleAs(
-    logger: Logger,
-    crossinline handler: (T) -> Unit
-) {
-    val value = this.value()
-    if (value is T) {
-        handler(value)
-    } else {
-        logger.error("Received message is not of type ${T::class.simpleName}")
-    }
-}
 
 /**
  * Creates a Kafka producer for messages.
@@ -54,16 +45,15 @@ fun <T> createConsumer(
     bootstrapServers: String,
     groupId: String,
     deserializer: JsonDeserializer<T>,
-): org.apache.kafka.clients.consumer.Consumer<String, T> {
+): Consumer<String, T> {
     val props = Properties().apply {
-        put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-        put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, groupId)
+        put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+        put(ConsumerConfig.GROUP_ID_CONFIG, groupId)
         put(
-            org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-            org.apache.kafka.common.serialization.StringDeserializer::class.java
+            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java
         )
-        put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer::class.java)
-        put(org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+        put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer::class.java)
+        put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
     }
-    return org.apache.kafka.clients.consumer.KafkaConsumer(props)
+    return KafkaConsumer(props)
 }

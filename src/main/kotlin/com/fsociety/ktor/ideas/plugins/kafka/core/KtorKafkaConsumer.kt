@@ -1,6 +1,5 @@
-package com.fsociety.ktor.ideas.streaming
+package com.fsociety.ktor.ideas.plugins.kafka.core
 
-import com.fsociety.ktor.ideas.common.kafka.KafkaMessage
 import com.fsociety.ktor.ideas.common.utils.logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
  * @param kafkaConsumer The Kafka consumer instance.
  * @param messageTopic The topic to consume messages from.
  */
-class KafkaConsumer<T : Any>(
+class KtorKafkaConsumer<T : Any>(
     private val kafkaConsumer: Consumer<String, T>,
     private val messageTopic: String,
 ) : CoroutineScope {
@@ -73,18 +72,5 @@ class KafkaConsumer<T : Any>(
         job.cancel()
     }
 
-    companion object {
-        /**
-         * Creates a KafkaConsumer for KafkaMessage type for backward compatibility.
-         * @param kafkaMessageConsumer The Kafka consumer for KafkaMessage.
-         * @param messageTopic The topic to consume messages from.
-         * @return A KafkaConsumer for KafkaMessage.
-         */
-        fun createForKafkaMessage(
-            kafkaMessageConsumer: Consumer<String, KafkaMessage>,
-            messageTopic: String
-        ): KafkaConsumer<KafkaMessage> {
-            return KafkaConsumer(kafkaMessageConsumer, messageTopic)
-        }
-    }
+    // No companion object needed as we're using the constructor directly
 }

@@ -1,27 +1,21 @@
 package com.fsociety.ktor.ideas.plugins
 
 import com.fsociety.ktor.ideas.common.kafka.KafkaMessage
-import com.fsociety.ktor.ideas.streaming.KafkaConsumer
+import com.fsociety.ktor.ideas.plugins.kafka.core.KtorKafkaPlugin
 import io.ktor.server.application.*
-import kotlinx.coroutines.launch
-import org.koin.ktor.ext.inject
 
 /**
  * Configures Kafka consumers and starts them.
  */
 fun Application.configureKafka() {
-    val kafkaConsumer by inject<KafkaConsumer<KafkaMessage>>()
-
-    // Start consuming messages in a background coroutine
-    launch {
-        kafkaConsumer.startConsuming { message ->
-            log.info("Processed Kafka message: ${message.name}")
-            // Handle the message as needed
+    install(KtorKafkaPlugin) {
+        registerKafkaConsumer {
+            id = "on-the-fly-consumer"
+            valueDeserializer = KafkaMessage.KafkaMessageDeserializer()
+            topic = "message-topic"
+            listener { message ->
+                log.info("On-the-fly consumer received message: $message")
+            }
         }
-    }
-
-    // Add a shutdown hook to stop the consumer when the application stops
-    monitor.subscribe(ApplicationStopping) {
-        kafkaConsumer.stopConsuming()
     }
 }
