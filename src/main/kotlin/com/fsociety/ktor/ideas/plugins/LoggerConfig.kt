@@ -9,7 +9,7 @@ import org.slf4j.event.Level.INFO
 
 internal val logger = KtorSimpleLogger("com.fsociety.ktor.ideas.plugins.RequestTracePlugin")
 
-val RequestTracePlugin = createRouteScopedPlugin("RequestTracePlugin", { }) {
+val RequestTracePlugin = createRouteScopedPlugin(name = "RequestTracePlugin") {
     onCall { call ->
         val method = call.request.httpMethod
         val requestUri = call.request.uri
