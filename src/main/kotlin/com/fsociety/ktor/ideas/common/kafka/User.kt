@@ -1,7 +1,7 @@
 package com.fsociety.ktor.ideas.common.kafka
 
-import com.fsociety.ktor.ideas.common.kafka.config.JsonDeserializer
-import com.fsociety.ktor.ideas.common.kafka.config.JsonSerializer
+import com.fsociety.ktor.ideas.infraestructure.kafka.serialization.json.JsonDeserializer
+import com.fsociety.ktor.ideas.infraestructure.kafka.serialization.json.JsonSerializer
 import kotlinx.serialization.Serializable
 
 /**

@@ -3,7 +3,7 @@ package com.fsociety.ktor.ideas.domain.repostoriy.impl
 import arrow.core.Either
 import arrow.core.Option
 import com.fsociety.ktor.ideas.common.response.ErrorApi
-import com.fsociety.ktor.ideas.common.utils.logger
+import com.fsociety.ktor.ideas.infraestructure.kafka.common.logger
 import com.fsociety.ktor.ideas.domain.dao.PersonDAO
 import com.fsociety.ktor.ideas.domain.db.DatabaseConfig.dbQuery
 import com.fsociety.ktor.ideas.domain.model.Person
